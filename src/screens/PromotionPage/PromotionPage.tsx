@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Header } from "../../components/layout/Header";
 import { CampaignStatsCard } from "../../components/promotion/CampaignStatsCard";
 import { CampaignCard, Campaign } from "../../components/promotion/CampaignCard";
+import { AdsTab } from "../../components/promotion/AdsTab";
 
 const mockCampaigns: Campaign[] = [
   {
@@ -222,11 +223,7 @@ export function PromotionPage() {
             </div>
           )}
 
-          {activeTab === "ads" && (
-            <div className="text-center py-16">
-              <p className="text-brand-gray-100 text-lg">Ads management coming soon</p>
-            </div>
-          )}
+          {activeTab === "ads" && <AdsTab />}
         </main>
 
         <footer className="max-w-7xl mx-auto px-8 pt-24 pb-16">
