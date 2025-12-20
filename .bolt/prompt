@@ -1,0 +1,10 @@
+this project is only front end and prototype project.
+no backend,
+no data base connections. 
+
+never build backend funcionality, never create data bases. 
+only focus on prototyping and front end screens creations. 
+
+important:
+make sure each page have a standalone file,
+and reusable components in ogranized components folder.
