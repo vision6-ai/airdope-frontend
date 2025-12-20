@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export interface Campaign {
   id: string;
@@ -155,9 +156,12 @@ export function CampaignCard({ campaign }: { campaign: Campaign }) {
           <i className={`${campaign.bottomIcon} mr-2`}></i>
           <span>{campaign.bottomText}</span>
         </div>
-        <a href="#" className="text-sm font-semibold text-white hover:text-gray-300 transition-colors flex items-center">
+        <Link
+          to={`/campaign/${campaign.id}`}
+          className="text-sm font-semibold text-white hover:text-gray-300 transition-colors flex items-center"
+        >
           {campaign.actionText} <i className="fa-solid fa-arrow-right ml-2 text-xs"></i>
-        </a>
+        </Link>
       </div>
     </div>
   );

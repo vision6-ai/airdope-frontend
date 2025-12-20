@@ -7,6 +7,7 @@ import { CreateDrop } from "./screens/CreateDrop";
 import { FansPage } from "./screens/FansPage";
 import { PromotionPage } from "./screens/PromotionPage";
 import { ManageDropPage } from "./screens/ManageDropPage";
+import { ManageCampaignPage } from "./screens/ManageCampaignPage";
 import { MessagesPage } from "./screens/MessagesPage";
 import { AIAgentPage } from "./screens/AIAgentPage";
 import { SettingsPage } from "./screens/SettingsPage";
@@ -21,6 +22,7 @@ createRoot(document.getElementById("app") as HTMLElement).render(
         <Route path="/fans" element={<FansPage />} />
         <Route path="/promotion" element={<PromotionPage />} />
         <Route path="/manage-drop/:id" element={<ManageDropPage />} />
+        <Route path="/campaign/:id" element={<ManageCampaignPage />} />
         <Route path="/messages" element={<MessagesPage />} />
         <Route path="/messages/ai-agent" element={<AIAgentPage />} />
         <Route path="/settings" element={<SettingsPage />} />
