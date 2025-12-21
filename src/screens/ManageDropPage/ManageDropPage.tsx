@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Header } from "../../components/layout/Header";
 import { GuestsTab } from "../../components/guests/GuestsTab";
 import { BlastsTab } from "../../components/blasts/BlastsTab";
@@ -11,6 +11,7 @@ import { SendBlastModal } from "../../components/blasts/SendBlastModal";
 const tabs = ["Overview", "Guests", "Registration", "Blasts", "Insights", "More"];
 
 export function ManageDropPage() {
+  const { id } = useParams<{ id: string }>();
   const [activeTab, setActiveTab] = useState("Overview");
   const [isBlastModalOpen, setIsBlastModalOpen] = useState(false);
 
@@ -22,7 +23,7 @@ export function ManageDropPage() {
         <Header />
 
         <main className="max-w-5xl mx-auto px-8 py-12">
-          <DropManagerHeader activeTab={activeTab} onTabChange={setActiveTab} />
+          <DropManagerHeader activeTab={activeTab} onTabChange={setActiveTab} dropId={id} />
           {activeTab === "Guests" ? (
             <GuestsTab />
           ) : activeTab === "Blasts" ? (
@@ -60,15 +61,18 @@ export function ManageDropPage() {
 interface DropManagerHeaderProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
+  dropId?: string;
 }
 
-function DropManagerHeader({ activeTab, onTabChange }: DropManagerHeaderProps) {
+function DropManagerHeader({ activeTab, onTabChange, dropId }: DropManagerHeaderProps) {
   return (
     <section className="mb-10">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-4xl font-bold text-white tracking-tight">AI day</h1>
         <Link
-          to="#"
+          to={`/drop/${dropId || "1"}`}
+          target="_blank"
+          rel="noopener noreferrer"
           className="px-5 py-2.5 bg-white hover:bg-gray-100 text-brand-dark text-sm font-semibold rounded-lg transition-colors flex items-center space-x-2"
         >
           <span>Drop Page</span>
