@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { LinkStatsCard } from "./LinkStatsCard";
 import { LinkCard, LinkData } from "./LinkCard";
 
@@ -30,12 +31,21 @@ const mockLinks: LinkData[] = [
 ];
 
 export function LinkBuilderTab() {
+  const navigate = useNavigate();
   const totalLinks = mockLinks.length;
   const totalViews = "3,847";
   const activeLinks = mockLinks.filter((l) => l.isActive).length;
 
   const handleCopyLink = (url: string) => {
     navigator.clipboard.writeText(`https://${url}`);
+  };
+
+  const handleEdit = (id: string) => {
+    navigate(`/link-editor/${id}`);
+  };
+
+  const handleCreateNew = () => {
+    navigate("/link-editor/new");
   };
 
   return (
@@ -49,7 +59,10 @@ export function LinkBuilderTab() {
             Manage your marketing links and track performance
           </p>
         </div>
-        <button className="inline-flex items-center px-5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg transition-colors">
+        <button
+          onClick={handleCreateNew}
+          className="inline-flex items-center px-5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg transition-colors"
+        >
           <i className="fa-solid fa-plus mr-2"></i>
           <span>Create New Link</span>
         </button>
@@ -78,7 +91,12 @@ export function LinkBuilderTab() {
 
       <div className="space-y-6">
         {mockLinks.map((link) => (
-          <LinkCard key={link.id} link={link} onCopyLink={handleCopyLink} />
+          <LinkCard
+            key={link.id}
+            link={link}
+            onCopyLink={handleCopyLink}
+            onEdit={handleEdit}
+          />
         ))}
       </div>
 
@@ -92,7 +110,10 @@ export function LinkBuilderTab() {
             Build custom links for different campaigns, influencers, or launch
             windows to track performance across channels
           </p>
-          <button className="inline-flex items-center px-5 py-2.5 bg-brand-gray-300 hover:bg-brand-gray-200 text-white text-sm font-medium rounded-lg transition-colors">
+          <button
+            onClick={handleCreateNew}
+            className="inline-flex items-center px-5 py-2.5 bg-brand-gray-300 hover:bg-brand-gray-200 text-white text-sm font-medium rounded-lg transition-colors"
+          >
             <i className="fa-solid fa-plus mr-2"></i>
             <span>Create New Link</span>
           </button>
