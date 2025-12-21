@@ -3,6 +3,7 @@ import { Header } from "../../components/layout/Header";
 import { EventGroup } from "../../components/drops/EventGroup";
 import { EventData } from "../../components/drops/EventCard";
 
+type SubNavType = "drops" | "link-builder";
 type TabType = "upcoming" | "past";
 
 const mockEvents: Record<string, { dayOfWeek: string; events: EventData[] }> = {
@@ -57,6 +58,7 @@ const mockEvents: Record<string, { dayOfWeek: string; events: EventData[] }> = {
 };
 
 export function DropsPage() {
+  const [activeSubNav, setActiveSubNav] = useState<SubNavType>("drops");
   const [activeTab, setActiveTab] = useState<TabType>("upcoming");
 
   return (
@@ -66,52 +68,98 @@ export function DropsPage() {
       <div className="relative z-[1]">
         <Header />
 
-        <main className="max-w-4xl mx-auto px-8 py-16">
-          <div className="flex items-center justify-between mb-12">
-            <h1 className="text-4xl font-bold text-white tracking-tight">
-              Drops
-            </h1>
-            <div className="flex items-center bg-brand-gray-300 p-1 rounded-lg text-sm">
+        <nav className="sticky top-16 z-10 bg-transparent backdrop-blur-sm border-b border-white/10">
+          <div className="max-w-4xl mx-auto px-8">
+            <div className="flex items-center space-x-8">
               <button
-                onClick={() => setActiveTab("upcoming")}
-                className={`px-4 py-1.5 rounded-md font-medium transition-colors ${
-                  activeTab === "upcoming"
-                    ? "bg-brand-gray-200 text-white"
-                    : "text-brand-gray-100 hover:text-white"
+                onClick={() => setActiveSubNav("drops")}
+                className={`relative py-3 text-sm font-medium transition-colors ${
+                  activeSubNav === "drops"
+                    ? "text-white"
+                    : "text-gray-400 hover:text-white"
                 }`}
               >
-                Upcoming
+                <span>Drops</span>
+                {activeSubNav === "drops" && (
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-white rounded-full"></span>
+                )}
               </button>
               <button
-                onClick={() => setActiveTab("past")}
-                className={`px-4 py-1.5 rounded-md font-medium transition-colors ${
-                  activeTab === "past"
-                    ? "bg-brand-gray-200 text-white"
-                    : "text-brand-gray-100 hover:text-white"
+                onClick={() => setActiveSubNav("link-builder")}
+                className={`relative py-3 text-sm font-medium transition-colors ${
+                  activeSubNav === "link-builder"
+                    ? "text-white"
+                    : "text-gray-400 hover:text-white"
                 }`}
               >
-                Past
+                <span>Link Builder</span>
+                {activeSubNav === "link-builder" && (
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-white rounded-full"></span>
+                )}
               </button>
             </div>
           </div>
+        </nav>
 
-          <div className="space-y-12">
-            {activeTab === "upcoming" ? (
-              Object.entries(mockEvents).map(([date, { dayOfWeek, events }]) => (
-                <EventGroup
-                  key={date}
-                  date={date}
-                  dayOfWeek={dayOfWeek}
-                  events={events}
-                />
-              ))
-            ) : (
-              <div className="text-center py-16 text-brand-gray-100">
-                <i className="fa-solid fa-calendar-xmark text-4xl mb-4"></i>
-                <p>No past events</p>
+        <main className="max-w-4xl mx-auto px-8 py-12">
+          {activeSubNav === "drops" && (
+            <>
+              <div className="flex items-center justify-between mb-12">
+                <h1 className="text-4xl font-bold text-white tracking-tight">
+                  Drops
+                </h1>
+                <div className="flex items-center bg-brand-gray-300 p-1 rounded-lg text-sm">
+                  <button
+                    onClick={() => setActiveTab("upcoming")}
+                    className={`px-4 py-1.5 rounded-md font-medium transition-colors ${
+                      activeTab === "upcoming"
+                        ? "bg-brand-gray-200 text-white"
+                        : "text-brand-gray-100 hover:text-white"
+                    }`}
+                  >
+                    Upcoming
+                  </button>
+                  <button
+                    onClick={() => setActiveTab("past")}
+                    className={`px-4 py-1.5 rounded-md font-medium transition-colors ${
+                      activeTab === "past"
+                        ? "bg-brand-gray-200 text-white"
+                        : "text-brand-gray-100 hover:text-white"
+                    }`}
+                  >
+                    Past
+                  </button>
+                </div>
               </div>
-            )}
-          </div>
+
+              <div className="space-y-12">
+                {activeTab === "upcoming" ? (
+                  Object.entries(mockEvents).map(([date, { dayOfWeek, events }]) => (
+                    <EventGroup
+                      key={date}
+                      date={date}
+                      dayOfWeek={dayOfWeek}
+                      events={events}
+                    />
+                  ))
+                ) : (
+                  <div className="text-center py-16 text-brand-gray-100">
+                    <i className="fa-solid fa-calendar-xmark text-4xl mb-4"></i>
+                    <p>No past events</p>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+
+          {activeSubNav === "link-builder" && (
+            <div className="text-center py-16">
+              <h1 className="text-4xl font-bold text-white tracking-tight mb-4">
+                Link Builder
+              </h1>
+              <p className="text-brand-gray-100 text-lg">Link Builder coming soon</p>
+            </div>
+          )}
         </main>
 
         <footer className="max-w-4xl mx-auto px-8 pt-24 pb-16">
