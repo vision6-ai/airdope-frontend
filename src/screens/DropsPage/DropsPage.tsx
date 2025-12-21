@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Header } from "../../components/layout/Header";
 import { EventGroup } from "../../components/drops/EventGroup";
 import { EventData } from "../../components/drops/EventCard";
+import { LinkBuilderTab } from "../../components/link-builder";
 
 type SubNavType = "drops" | "link-builder";
 type TabType = "upcoming" | "past";
@@ -152,14 +153,7 @@ export function DropsPage() {
             </>
           )}
 
-          {activeSubNav === "link-builder" && (
-            <div className="text-center py-16">
-              <h1 className="text-4xl font-bold text-white tracking-tight mb-4">
-                Link Builder
-              </h1>
-              <p className="text-brand-gray-100 text-lg">Link Builder coming soon</p>
-            </div>
-          )}
+          {activeSubNav === "link-builder" && <LinkBuilderTab />}
         </main>
 
         <footer className="max-w-4xl mx-auto px-8 pt-24 pb-16">
