@@ -14,6 +14,11 @@ export function FansDropPage() {
     }
   };
 
+  const handleReset = () => {
+    setIsSubmitted(false);
+    setInputValue("");
+  };
+
   return (
     <div className="bg-black font-inter text-white min-h-screen">
       <div className="min-h-[800px] flex items-center justify-center p-4 sm:p-8">
@@ -27,6 +32,7 @@ export function FansDropPage() {
               setInputMode={setInputMode}
               onSubmit={handleSubmit}
               isSubmitted={isSubmitted}
+              onReset={handleReset}
             />
           </div>
         </main>
@@ -61,6 +67,7 @@ interface EventDetailsProps {
   setInputMode: (mode: InputMode) => void;
   onSubmit: (e: React.FormEvent) => void;
   isSubmitted: boolean;
+  onReset: () => void;
 }
 
 function EventDetails({
@@ -70,6 +77,7 @@ function EventDetails({
   setInputMode,
   onSubmit,
   isSubmitted,
+  onReset,
 }: EventDetailsProps) {
   return (
     <div className="flex flex-col gap-8">
@@ -81,6 +89,7 @@ function EventDetails({
         setInputMode={setInputMode}
         onSubmit={onSubmit}
         isSubmitted={isSubmitted}
+        onReset={onReset}
       />
       <AdditionalDetails />
     </div>
@@ -112,6 +121,7 @@ interface SignupCardProps {
   setInputMode: (mode: InputMode) => void;
   onSubmit: (e: React.FormEvent) => void;
   isSubmitted: boolean;
+  onReset: () => void;
 }
 
 function SignupCard({
@@ -121,42 +131,61 @@ function SignupCard({
   setInputMode,
   onSubmit,
   isSubmitted,
+  onReset,
 }: SignupCardProps) {
   if (isSubmitted) {
     return (
-      <div className="bg-white text-black p-8 rounded-2xl w-full">
-        <div className="text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <i className="fa-solid fa-check text-green-600 text-2xl" />
-          </div>
-          <h2 className="font-bold text-2xl mb-2">You're on the list!</h2>
-          <p className="text-gray-600 mb-4">
-            We'll notify you at <span className="font-semibold">{inputValue}</span> when tickets
-            drop.
-          </p>
-          <div className="bg-gray-50 rounded-xl p-4 mt-6">
-            <p className="text-sm text-gray-500 mb-3">Share with friends</p>
-            <div className="flex items-center justify-center gap-3">
-              <button className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors">
-                <i className="fa-brands fa-x-twitter text-gray-700" />
-              </button>
-              <button className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors">
-                <i className="fa-brands fa-facebook-f text-gray-700" />
-              </button>
-              <button className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors">
-                <i className="fa-brands fa-whatsapp text-gray-700" />
-              </button>
-              <button className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors">
-                <i className="fa-solid fa-link text-gray-700" />
-              </button>
+      <div className="bg-white text-black p-6 rounded-2xl w-full">
+        <div className="flex flex-col items-center justify-center py-4 relative">
+          <button className="absolute top-0 left-0 text-gray-400 hover:text-gray-600 transition-colors">
+            <i className="fa-solid fa-arrow-up-from-bracket text-xl" />
+          </button>
+          <button
+            onClick={onReset}
+            className="absolute top-0 right-0 text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            <i className="fa-solid fa-xmark text-xl" />
+          </button>
+
+          <div className="bg-white shadow-lg rounded-2xl p-3 flex items-center gap-4 my-6">
+            <img
+              src="https://storage.googleapis.com/uxpilot-auth.appspot.com/c91ee05417-66511b817d6050b44585.png"
+              alt="Stranger Than logo"
+              className="w-10 h-10 rounded-full"
+            />
+            <div>
+              <p className="text-sm text-gray-600">Stranger Than;</p>
+              <p className="text-lg font-bold text-black">
+                {inputMode === "email" ? "Check your email" : "Check your phone"}
+              </p>
             </div>
           </div>
-        </div>
-        <div className="text-center mt-6">
-          <a href="#" className="text-xs text-gray-500 font-medium group">
-            Make a Drop like this{" "}
-            <i className="fa-solid fa-arrow-right ml-1 transition-transform group-hover:translate-x-1" />
-          </a>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full mb-6">
+            <button className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-4 rounded-xl transition-colors text-sm flex items-center justify-center gap-2">
+              <i className="fa-solid fa-arrow-up-from-bracket" />
+              Share
+            </button>
+            <button className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-4 rounded-xl transition-colors text-sm flex items-center justify-center gap-2">
+              <i className="fa-solid fa-droplet" />
+              Make a drop like this
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2 text-xs text-gray-400">
+            <span>Powered by</span>
+            <span className="font-bold text-gray-600 flex items-center gap-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M12 0C18.6274 0 24 5.37258 24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12C0 5.37258 5.37258 0 12 0ZM12 17.1429C14.8385 17.1429 17.1429 14.8385 17.1429 12C17.1429 9.16153 14.8385 6.85714 12 6.85714C9.16153 6.85714 6.85714 9.16153 6.85714 12C6.85714 14.8385 9.16153 17.1429 12 17.1429Z" />
+              </svg>
+              AirDope
+            </span>
+          </div>
         </div>
       </div>
     );
