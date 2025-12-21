@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 
+type InputMode = "email" | "phone";
+
 export function FansDropPage() {
-  const [email, setEmail] = useState("");
+  const [inputValue, setInputValue] = useState("");
+  const [inputMode, setInputMode] = useState<InputMode>("email");
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (inputValue.trim()) {
+      setIsSubmitted(true);
+    }
   };
 
   return (
@@ -13,7 +20,14 @@ export function FansDropPage() {
         <main className="w-full max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <EventArtwork />
-            <EventDetails email={email} setEmail={setEmail} onSubmit={handleSubmit} />
+            <EventDetails
+              inputValue={inputValue}
+              setInputValue={setInputValue}
+              inputMode={inputMode}
+              setInputMode={setInputMode}
+              onSubmit={handleSubmit}
+              isSubmitted={isSubmitted}
+            />
           </div>
         </main>
       </div>
@@ -41,16 +55,33 @@ function EventArtwork() {
 }
 
 interface EventDetailsProps {
-  email: string;
-  setEmail: (email: string) => void;
+  inputValue: string;
+  setInputValue: (value: string) => void;
+  inputMode: InputMode;
+  setInputMode: (mode: InputMode) => void;
   onSubmit: (e: React.FormEvent) => void;
+  isSubmitted: boolean;
 }
 
-function EventDetails({ email, setEmail, onSubmit }: EventDetailsProps) {
+function EventDetails({
+  inputValue,
+  setInputValue,
+  inputMode,
+  setInputMode,
+  onSubmit,
+  isSubmitted,
+}: EventDetailsProps) {
   return (
     <div className="flex flex-col gap-8">
       <EventTitleBlock />
-      <SignupCard email={email} setEmail={setEmail} onSubmit={onSubmit} />
+      <SignupCard
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        inputMode={inputMode}
+        setInputMode={setInputMode}
+        onSubmit={onSubmit}
+        isSubmitted={isSubmitted}
+      />
       <AdditionalDetails />
     </div>
   );
@@ -75,31 +106,97 @@ function EventTitleBlock() {
 }
 
 interface SignupCardProps {
-  email: string;
-  setEmail: (email: string) => void;
+  inputValue: string;
+  setInputValue: (value: string) => void;
+  inputMode: InputMode;
+  setInputMode: (mode: InputMode) => void;
   onSubmit: (e: React.FormEvent) => void;
+  isSubmitted: boolean;
 }
 
-function SignupCard({ email, setEmail, onSubmit }: SignupCardProps) {
+function SignupCard({
+  inputValue,
+  setInputValue,
+  inputMode,
+  setInputMode,
+  onSubmit,
+  isSubmitted,
+}: SignupCardProps) {
+  if (isSubmitted) {
+    return (
+      <div className="bg-white text-black p-8 rounded-2xl w-full">
+        <div className="text-center">
+          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i className="fa-solid fa-check text-green-600 text-2xl" />
+          </div>
+          <h2 className="font-bold text-2xl mb-2">You're on the list!</h2>
+          <p className="text-gray-600 mb-4">
+            We'll notify you at <span className="font-semibold">{inputValue}</span> when tickets
+            drop.
+          </p>
+          <div className="bg-gray-50 rounded-xl p-4 mt-6">
+            <p className="text-sm text-gray-500 mb-3">Share with friends</p>
+            <div className="flex items-center justify-center gap-3">
+              <button className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors">
+                <i className="fa-brands fa-x-twitter text-gray-700" />
+              </button>
+              <button className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors">
+                <i className="fa-brands fa-facebook-f text-gray-700" />
+              </button>
+              <button className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors">
+                <i className="fa-brands fa-whatsapp text-gray-700" />
+              </button>
+              <button className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors">
+                <i className="fa-solid fa-link text-gray-700" />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="text-center mt-6">
+          <a href="#" className="text-xs text-gray-500 font-medium group">
+            Make a Drop like this{" "}
+            <i className="fa-solid fa-arrow-right ml-1 transition-transform group-hover:translate-x-1" />
+          </a>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white text-black p-6 rounded-2xl w-full">
       <div className="flex justify-between items-center mb-4">
         <h2 className="font-bold text-lg">Get notified</h2>
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full">
-            <i className="fa-regular fa-comment-dots text-gray-600" />
-          </div>
-          <div className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full">
-            <i className="fa-regular fa-envelope text-gray-600" />
-          </div>
+          <button
+            type="button"
+            onClick={() => setInputMode("phone")}
+            className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
+              inputMode === "phone"
+                ? "bg-gray-800 text-white"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+            }`}
+          >
+            <i className="fa-regular fa-comment-dots" />
+          </button>
+          <button
+            type="button"
+            onClick={() => setInputMode("email")}
+            className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
+              inputMode === "email"
+                ? "bg-gray-800 text-white"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+            }`}
+          >
+            <i className="fa-regular fa-envelope" />
+          </button>
         </div>
       </div>
       <form onSubmit={onSubmit} className="flex items-center gap-2">
         <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Your email"
+          type={inputMode === "email" ? "email" : "tel"}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          placeholder={inputMode === "email" ? "Your email" : "Your phone number"}
           className="w-full bg-gray-100 border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow"
         />
         <button
