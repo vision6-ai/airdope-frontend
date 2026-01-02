@@ -3,7 +3,6 @@ import { X, ArrowRight, Shield } from "lucide-react";
 import { useFormProgress } from "./useFormProgress";
 import { RevealingField, FormInput, FormSelect, FormInputAutocomplete } from "./RevealingField";
 import { ProgressiveSection } from "./ProgressiveSection";
-import { FormProgressBar, SectionIndicator } from "./FormProgressBar";
 
 const businessTypeOptions = [
   { value: "standard", label: "Standard" },
@@ -35,9 +34,7 @@ export function SmartOnboardingForm({
   const {
     formData,
     visibility,
-    currentSection,
     updateField,
-    getCompletionPercentage,
     isSectionComplete,
     isFormComplete,
   } = useFormProgress();
@@ -63,17 +60,10 @@ export function SmartOnboardingForm({
     updateField("country", components.country);
   };
 
-  const sections = [
-    { number: 1, title: "Basic Information", isComplete: isSectionComplete(1) },
-    { number: 2, title: "Tax Information", isComplete: isSectionComplete(2) },
-    { number: 3, title: "Business Address", isComplete: isSectionComplete(3) },
-    { number: 4, title: "Contact Information", isComplete: isSectionComplete(4) },
-  ];
-
   return (
     <div className="bg-brand-gray-500 border border-brand-gray-200/30 rounded-xl w-full max-w-xl mx-auto overflow-hidden">
       <div className="px-5 pt-4 pb-3 border-b border-brand-gray-200/20">
-        <div className="flex items-start justify-between mb-3">
+        <div className="flex items-start justify-between">
           <div>
             <h1 className="text-lg font-bold text-white">Business Registration</h1>
             <p className="text-brand-gray-100 text-xs mt-0.5">
@@ -88,13 +78,6 @@ export function SmartOnboardingForm({
               <X className="w-4 h-4 text-brand-gray-100" />
             </button>
           )}
-        </div>
-        <div className="flex items-center justify-between">
-          <SectionIndicator sections={sections} currentSection={currentSection} />
-          <FormProgressBar
-            percentage={getCompletionPercentage()}
-            className="w-28"
-          />
         </div>
       </div>
 
