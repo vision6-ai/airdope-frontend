@@ -137,19 +137,38 @@ function parseAddressComponents(
     if (types.includes("route")) {
       route = component.long_name;
     }
-    if (types.includes("locality")) {
-      result.city = component.long_name;
+    if (!result.city) {
+      if (
+        types.includes("locality") ||
+        types.includes("sublocality") ||
+        types.includes("sublocality_level_1") ||
+        types.includes("postal_town") ||
+        types.includes("neighborhood")
+      ) {
+        result.city = component.long_name;
+      }
     }
     if (types.includes("administrative_area_level_1")) {
       result.state = component.short_name;
     }
-    if (types.includes("postal_code")) {
-      result.zipCode = component.long_name;
+    if (!result.zipCode) {
+      if (types.includes("postal_code") || types.includes("postal_code_prefix")) {
+        result.zipCode = component.long_name;
+      }
     }
     if (types.includes("country")) {
       result.country = component.short_name.toLowerCase();
     }
   });
+
+  if (!result.city) {
+    const cityComponent = components.find((c) =>
+      c.types.includes("administrative_area_level_2")
+    );
+    if (cityComponent) {
+      result.city = cityComponent.long_name;
+    }
+  }
 
   result.streetAddress = `${streetNumber} ${route}`.trim();
 
