@@ -13,6 +13,7 @@ import { AIAgentPage } from "./screens/AIAgentPage";
 import { SettingsPage } from "./screens/SettingsPage";
 import { FansDropPage } from "./screens/FansDropPage";
 import { LinkEditorPage } from "./screens/LinkEditorPage";
+import { OnboardingPage } from "./screens/OnboardingPage";
 
 createRoot(document.getElementById("app") as HTMLElement).render(
   <StrictMode>
@@ -30,6 +31,7 @@ createRoot(document.getElementById("app") as HTMLElement).render(
         <Route path="/messages/ai-agent" element={<AIAgentPage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/link-editor/:id" element={<LinkEditorPage />} />
+        <Route path="/onboarding" element={<OnboardingPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
