@@ -12,15 +12,6 @@ const businessTypeOptions = [
   { value: "nonprofit", label: "Non-Profit" },
 ];
 
-const industryOptions = [
-  { value: "retail", label: "Retail & Consumer Products" },
-  { value: "technology", label: "Technology" },
-  { value: "healthcare", label: "Healthcare" },
-  { value: "finance", label: "Finance & Banking" },
-  { value: "education", label: "Education" },
-  { value: "entertainment", label: "Entertainment" },
-  { value: "other", label: "Other" },
-];
 
 const countryOptions = [
   { value: "us", label: "United States" },
@@ -148,26 +139,6 @@ export function SmartOnboardingForm({
                 options={businessTypeOptions}
                 placeholder="Select type"
               />
-            </div>
-          </RevealingField>
-
-          <RevealingField isVisible={visibility.industryVertical} delay={100}>
-            <div className="grid grid-cols-2 gap-3">
-              <FormSelect
-                label="Industry Vertical"
-                value={formData.industryVertical}
-                onChange={(v) => updateField("industryVertical", v)}
-                options={industryOptions}
-                placeholder="Select industry"
-              />
-              <RevealingField isVisible={visibility.referenceId} delay={200}>
-                <FormInput
-                  label="Reference ID"
-                  value={formData.referenceId}
-                  onChange={() => {}}
-                  readOnly
-                />
-              </RevealingField>
             </div>
           </RevealingField>
         </ProgressiveSection>

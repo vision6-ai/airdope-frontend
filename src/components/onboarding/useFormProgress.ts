@@ -5,8 +5,6 @@ export interface FormData {
   legalName: string;
   website: string;
   businessType: string;
-  industryVertical: string;
-  referenceId: string;
   taxId: string;
   taxCountry: string;
   streetAddress: string;
@@ -25,8 +23,6 @@ export interface FieldVisibility {
   legalName: boolean;
   website: boolean;
   businessType: boolean;
-  industryVertical: boolean;
-  referenceId: boolean;
   taxId: boolean;
   taxCountry: boolean;
   streetAddress: boolean;
@@ -45,8 +41,6 @@ const initialFormData: FormData = {
   legalName: "",
   website: "",
   businessType: "",
-  industryVertical: "",
-  referenceId: "",
   taxId: "",
   taxCountry: "",
   streetAddress: "",
@@ -65,8 +59,6 @@ const initialVisibility: FieldVisibility = {
   legalName: false,
   website: false,
   businessType: false,
-  industryVertical: false,
-  referenceId: false,
   taxId: false,
   taxCountry: false,
   streetAddress: false,
@@ -80,17 +72,6 @@ const initialVisibility: FieldVisibility = {
   contactLastName: false,
 };
 
-function generateReferenceId(): string {
-  const chars = "0123456789abcdef";
-  const segments = [8, 4, 4, 4, 12];
-  return segments
-    .map((len) =>
-      Array.from({ length: len }, () =>
-        chars.charAt(Math.floor(Math.random() * chars.length))
-      ).join("")
-    )
-    .join("-");
-}
 
 export function useFormProgress() {
   const [formData, setFormData] = useState<FormData>(initialFormData);
@@ -118,14 +99,6 @@ export function useFormProgress() {
             break;
           case "businessType":
             if (value) {
-              newVisibility.industryVertical = true;
-            }
-            break;
-          case "industryVertical":
-            if (value) {
-              newVisibility.referenceId = true;
-              const refId = generateReferenceId();
-              setFormData((p) => ({ ...p, referenceId: refId }));
               setTimeout(() => {
                 setVisibility((v) => ({ ...v, taxId: true }));
                 setCurrentSection(2);
@@ -199,8 +172,7 @@ export function useFormProgress() {
           return Boolean(
             formData.businessName &&
             formData.legalName &&
-            formData.businessType &&
-            formData.industryVertical
+            formData.businessType
           );
         case 2:
           return Boolean(formData.taxId && formData.taxCountry);
