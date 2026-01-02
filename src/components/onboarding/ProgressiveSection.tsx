@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { cn } from "../../lib/utils";
 import { Check, ChevronDown } from "lucide-react";
 
@@ -22,7 +22,7 @@ export function ProgressiveSection({
   const [shouldRender, setShouldRender] = useState(number === 1);
   const [isAnimating, setIsAnimating] = useState(number === 1);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [wasComplete, setWasComplete] = useState(false);
+  const prevCompleteRef = useRef(false);
 
   useEffect(() => {
     if (isVisible && !shouldRender) {
@@ -37,14 +37,15 @@ export function ProgressiveSection({
   }, [isVisible, shouldRender, delay]);
 
   useEffect(() => {
-    if (isComplete && !wasComplete) {
-      setWasComplete(true);
+    if (isComplete && !prevCompleteRef.current) {
+      prevCompleteRef.current = true;
       const timer = setTimeout(() => {
         setIsCollapsed(true);
       }, 400);
       return () => clearTimeout(timer);
     }
-  }, [isComplete, wasComplete]);
+    prevCompleteRef.current = isComplete;
+  }, [isComplete]);
 
   if (!shouldRender) return null;
 

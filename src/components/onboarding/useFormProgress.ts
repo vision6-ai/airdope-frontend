@@ -193,19 +193,19 @@ export function useFormProgress() {
   }, [formData]);
 
   const isSectionComplete = useCallback(
-    (section: number) => {
+    (section: number): boolean => {
       switch (section) {
         case 1:
-          return (
+          return Boolean(
             formData.businessName &&
             formData.legalName &&
             formData.businessType &&
             formData.industryVertical
           );
         case 2:
-          return formData.taxId && formData.taxCountry;
+          return Boolean(formData.taxId && formData.taxCountry);
         case 3:
-          return (
+          return Boolean(
             formData.streetAddress &&
             formData.city &&
             formData.state &&
@@ -213,7 +213,7 @@ export function useFormProgress() {
             formData.country
           );
         case 4:
-          return (
+          return Boolean(
             formData.supportEmail &&
             formData.supportPhone &&
             formData.contactFirstName &&
