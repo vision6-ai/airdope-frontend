@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Registration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --brand-dark: #111111;
+      --brand-gray-100: #8A8A8E;
+      --brand-gray-200: #3A3A3C;
+      --brand-gray-300: #2C2C2E;
+      --brand-gray-400: #1C1C1E;
+      --brand-gray-500: #151515;
+      --green-400: #4ade80;
+      --green-500: #22c55e;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--brand-dark);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .form-container {
+      background-color: var(--brand-gray-500);
+      border: 1px solid rgba(58, 58, 60, 0.3);
+      border-radius: 0.75rem;
+      width: 100%;
+      max-width: 36rem;
+      overflow: hidden;
+    }
+
+    .form-header {
+      padding: 1rem 1.25rem 0.75rem;
+      border-bottom: 1px solid rgba(58, 58, 60, 0.2);
+    }
+
+    .form-header-content {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .form-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .form-subtitle {
+      color: var(--brand-gray-100);
+      font-size: 0.75rem;
+      margin-top: 0.125rem;
+    }
+
+    .close-btn {
+      padding: 0.375rem;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      border-radius: 0.375rem;
+      transition: background-color 0.2s;
+      margin-right: -0.25rem;
+      display: none;
+    }
+
+    .close-btn:hover {
+      background-color: var(--brand-gray-300);
+    }
+
+    .close-btn svg {
+      width: 1rem;
+      height: 1rem;
+      color: var(--brand-gray-100);
+    }
+
+    .form-body {
+      padding: 1rem 1.25rem;
+    }
+
+    .form-sections {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .section {
+      opacity: 0;
+      transform: translateY(1rem);
+      transition: all 0.4s ease-out;
+    }
+
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section.hidden {
+      display: none;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      cursor: default;
+      margin-bottom: 0.75rem;
+      transition: margin-bottom 0.3s ease-out;
+    }
+
+    .section-header.collapsed {
+      margin-bottom: 0;
+    }
+
+    .section-header.clickable {
+      cursor: pointer;
+    }
+
+    .section-number {
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: 0.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background-color: var(--brand-gray-300);
+      color: white;
+      transition: all 0.3s;
+    }
+
+    .section-number.complete {
+      background-color: rgba(34, 197, 94, 0.2);
+      color: var(--green-400);
+    }
+
+    .section-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: white;
+      flex: 1;
+    }
+
+    .chevron {
+      width: 1rem;
+      height: 1rem;
+      color: var(--brand-gray-100);
+      transition: transform 0.3s;
+    }
+
+    .chevron.rotated {
+      transform: rotate(180deg);
+    }
+
+    .section-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+      overflow: hidden;
+      max-height: 500px;
+      opacity: 1;
+      transition: all 0.3s ease-out;
+    }
+
+    .section-content.collapsed {
+      max-height: 0;
+      opacity: 0;
+    }
+
+    .field {
+      opacity: 0;
+      transform: translateY(0.75rem);
+      transition: all 0.3s ease-out;
+    }
+
+    .field.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .field.hidden {
+      display: none;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 0.6875rem;
+      color: var(--brand-gray-100);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+
+    .field-input,
+    .field-select {
+      width: 100%;
+      background-color: rgba(28, 28, 30, 0.6);
+      border: 1px solid rgba(58, 58, 60, 0.5);
+      border-radius: 0.375rem;
+      padding: 0.5rem 0.75rem;
+      color: white;
+      font-size: 0.875rem;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .field-input::placeholder {
+      color: rgba(138, 138, 142, 0.6);
+    }
+
+    .field-input:focus,
+    .field-select:focus {
+      outline: none;
+      border-color: rgba(138, 138, 142, 0.5);
+      box-shadow: 0 0 0 1px rgba(138, 138, 142, 0.2);
+    }
+
+    .field-select {
+      appearance: none;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%238A8A8E'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 16px;
+    }
+
+    .field-select option {
+      background-color: var(--brand-gray-400);
+      color: white;
+    }
+
+    .field-select.placeholder {
+      color: rgba(138, 138, 142, 0.6);
+    }
+
+    .helper-text {
+      font-size: 0.625rem;
+      color: rgba(138, 138, 142, 0.7);
+      margin-top: 0.25rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+
+    .form-footer {
+      padding: 0.75rem 1.25rem;
+      border-top: 1px solid rgba(58, 58, 60, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .secure-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      color: var(--brand-gray-100);
+      font-size: 0.75rem;
+    }
+
+    .secure-badge svg {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+
+    .btn-submit {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      background-color: white;
+      color: var(--brand-dark);
+      border: none;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      transition: all 0.2s;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      background-color: #f3f4f6;
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .btn-submit svg {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+
+    .success-container {
+      background-color: var(--brand-gray-500);
+      border: 1px solid rgba(58, 58, 60, 0.3);
+      border-radius: 1rem;
+      padding: 2rem;
+      max-width: 28rem;
+      text-align: center;
+      display: none;
+    }
+
+    .success-container.visible {
+      display: block;
+    }
+
+    .success-icon {
+      width: 4rem;
+      height: 4rem;
+      background-color: rgba(34, 197, 94, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+
+    .success-icon svg {
+      width: 2rem;
+      height: 2rem;
+      color: var(--green-400);
+    }
+
+    .success-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 0.5rem;
+    }
+
+    .success-message {
+      color: var(--brand-gray-100);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .success-message .highlight {
+      color: white;
+      font-weight: 500;
+    }
+
+    .btn-restart {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      background-color: white;
+      color: var(--brand-dark);
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .btn-restart:hover {
+      background-color: #f3f4f6;
+    }
+
+    .check-icon {
+      width: 0.75rem;
+      height: 0.75rem;
+    }
+
+    @media (max-width: 640px) {
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .pac-container {
+      background-color: var(--brand-gray-400);
+      border: 1px solid var(--brand-gray-200);
+      border-radius: 0.375rem;
+      margin-top: 0.25rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .pac-item {
+      padding: 0.5rem 0.75rem;
+      color: white;
+      border-top: 1px solid var(--brand-gray-200);
+      cursor: pointer;
+    }
+
+    .pac-item:first-child {
+      border-top: none;
+    }
+
+    .pac-item:hover {
+      background-color: var(--brand-gray-300);
+    }
+
+    .pac-item-query {
+      color: white;
+      font-size: 0.875rem;
+    }
+
+    .pac-matched {
+      font-weight: 600;
+    }
+
+    .pac-icon {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="form-container" class="form-container">
+    <div class="form-header">
+      <div class="form-header-content">
+        <div>
+          <h1 class="form-title">Business Registration</h1>
+          <p class="form-subtitle">Complete your business profile to activate your account</p>
+        </div>
+        <button class="close-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <form id="onboarding-form" class="form-body">
+      <div class="form-sections">
+        <div id="section-1" class="section visible">
+          <button type="button" class="section-header" id="section-header-1">
+            <div class="section-number" id="section-number-1">1</div>
+            <h2 class="section-title">Basic Information</h2>
+            <svg class="chevron hidden" id="chevron-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="section-content" id="section-content-1">
+            <div id="field-businessName" class="field visible">
+              <label class="field-label">Brand Name</label>
+              <input type="text" class="field-input" id="businessName" placeholder="Enter your brand name" autofocus>
+            </div>
+            <div id="field-legalName" class="field hidden">
+              <label class="field-label">Legal Name</label>
+              <input type="text" class="field-input" id="legalName" placeholder="Legal entity name">
+            </div>
+            <div id="field-website" class="field hidden">
+              <div class="grid-2">
+                <div>
+                  <label class="field-label">Website</label>
+                  <input type="text" class="field-input" id="website" placeholder="https://www.example.com">
+                  <p class="helper-text">Or we'll use your Airdope page</p>
+                </div>
+                <div>
+                  <label class="field-label">Business Type</label>
+                  <select class="field-select placeholder" id="businessType">
+                    <option value="" disabled selected>Select type</option>
+                    <option value="standard">Standard</option>
+                    <option value="enterprise">Enterprise</option>
+                    <option value="startup">Startup</option>
+                    <option value="nonprofit">Non-Profit</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="section-2" class="section hidden">
+          <button type="button" class="section-header" id="section-header-2">
+            <div class="section-number" id="section-number-2">2</div>
+            <h2 class="section-title">Tax Information</h2>
+            <svg class="chevron hidden" id="chevron-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="section-content" id="section-content-2">
+            <div id="field-taxId" class="field hidden">
+              <label class="field-label">Tax ID (EIN)</label>
+              <input type="text" class="field-input" id="taxId" placeholder="XX-XXXXXXX">
+            </div>
+            <div id="field-taxCountry" class="field hidden">
+              <label class="field-label">Tax ID Issuing Country</label>
+              <select class="field-select placeholder" id="taxCountry">
+                <option value="" disabled selected>Select country</option>
+                <option value="us">United States</option>
+                <option value="ca">Canada</option>
+                <option value="uk">United Kingdom</option>
+                <option value="de">Germany</option>
+                <option value="fr">France</option>
+                <option value="au">Australia</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div id="section-3" class="section hidden">
+          <button type="button" class="section-header" id="section-header-3">
+            <div class="section-number" id="section-number-3">3</div>
+            <h2 class="section-title">Business Address</h2>
+            <svg class="chevron hidden" id="chevron-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="section-content" id="section-content-3">
+            <div id="field-streetAddress" class="field hidden">
+              <label class="field-label">Street Address</label>
+              <input type="text" class="field-input" id="streetAddress" placeholder="Start typing your address...">
+            </div>
+            <div id="field-city" class="field hidden">
+              <div class="grid-3">
+                <div>
+                  <label class="field-label">City</label>
+                  <input type="text" class="field-input" id="city" placeholder="New York">
+                </div>
+                <div>
+                  <label class="field-label">State</label>
+                  <input type="text" class="field-input" id="state" placeholder="NY">
+                </div>
+                <div>
+                  <label class="field-label">Zip Code</label>
+                  <input type="text" class="field-input" id="zipCode" placeholder="10001">
+                </div>
+              </div>
+            </div>
+            <div id="field-country" class="field hidden">
+              <label class="field-label">Country</label>
+              <select class="field-select placeholder" id="country">
+                <option value="" disabled selected>Select country</option>
+                <option value="us">United States</option>
+                <option value="ca">Canada</option>
+                <option value="uk">United Kingdom</option>
+                <option value="de">Germany</option>
+                <option value="fr">France</option>
+                <option value="au">Australia</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div id="section-4" class="section hidden">
+          <button type="button" class="section-header" id="section-header-4">
+            <div class="section-number" id="section-number-4">4</div>
+            <h2 class="section-title">Contact Information</h2>
+            <svg class="chevron hidden" id="chevron-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="section-content" id="section-content-4">
+            <div id="field-supportEmail" class="field hidden">
+              <label class="field-label">Support Email</label>
+              <input type="email" class="field-input" id="supportEmail" placeholder="support@example.com">
+            </div>
+            <div id="field-supportPhone" class="field hidden">
+              <label class="field-label">Support Phone</label>
+              <input type="tel" class="field-input" id="supportPhone" placeholder="+1 (555) 000-0000">
+            </div>
+            <div id="field-contactFirstName" class="field hidden">
+              <div class="grid-2">
+                <div>
+                  <label class="field-label">Contact First Name</label>
+                  <input type="text" class="field-input" id="contactFirstName" placeholder="John">
+                </div>
+                <div>
+                  <label class="field-label">Contact Last Name</label>
+                  <input type="text" class="field-input" id="contactLastName" placeholder="Doe">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="form-footer">
+      <div class="secure-badge">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
+        <span>Encrypted and secure</span>
+      </div>
+      <button type="submit" class="btn-submit" id="submit-btn" disabled>
+        Submit
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="success-container" class="success-container">
+    <div class="success-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+    </div>
+    <h2 class="success-title">Registration Complete</h2>
+    <p class="success-message">
+      Thank you, <span id="success-name" class="highlight"></span>! Your business profile for
+      <span id="success-business" class="highlight"></span>
+      has been submitted successfully.
+    </p>
+    <button class="btn-restart" id="restart-btn">Start New Registration</button>
+  </div>
+
+  <script>
+    const formData = {
+      businessName: '',
+      legalName: '',
+      website: '',
+      businessType: '',
+      taxId: '',
+      taxCountry: '',
+      streetAddress: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      country: '',
+      supportEmail: '',
+      supportPhone: '',
+      contactFirstName: '',
+      contactLastName: ''
+    };
+
+    const visibility = {
+      businessName: true,
+      legalName: false,
+      website: false,
+      businessType: false,
+      taxId: false,
+      taxCountry: false,
+      streetAddress: false,
+      city: false,
+      state: false,
+      zipCode: false,
+      country: false,
+      supportEmail: false,
+      supportPhone: false,
+      contactFirstName: false,
+      contactLastName: false
+    };
+
+    const sectionCollapsed = {
+      1: false,
+      2: false,
+      3: false,
+      4: false
+    };
+
+    const sectionComplete = {
+      1: false,
+      2: false,
+      3: false,
+      4: false
+    };
+
+    function showField(fieldName, delay = 0) {
+      if (visibility[fieldName]) return;
+      visibility[fieldName] = true;
+
+      setTimeout(() => {
+        const field = document.getElementById(`field-${fieldName}`);
+        if (field) {
+          field.classList.remove('hidden');
+          requestAnimationFrame(() => {
+            field.classList.add('visible');
+          });
+        }
+      }, delay);
+    }
+
+    function showSection(sectionNum, delay = 0) {
+      setTimeout(() => {
+        const section = document.getElementById(`section-${sectionNum}`);
+        if (section) {
+          section.classList.remove('hidden');
+          requestAnimationFrame(() => {
+            section.classList.add('visible');
+          });
+        }
+      }, delay);
+    }
+
+    function checkSectionComplete(sectionNum) {
+      let complete = false;
+
+      switch(sectionNum) {
+        case 1:
+          complete = Boolean(formData.businessName && formData.legalName && formData.businessType);
+          break;
+        case 2:
+          complete = Boolean(formData.taxId && formData.taxCountry);
+          break;
+        case 3:
+          complete = Boolean(formData.streetAddress && formData.city && formData.state && formData.zipCode && formData.country);
+          break;
+        case 4:
+          complete = Boolean(formData.supportEmail && formData.supportPhone && formData.contactFirstName && formData.contactLastName);
+          break;
+      }
+
+      if (complete && !sectionComplete[sectionNum]) {
+        sectionComplete[sectionNum] = true;
+        markSectionComplete(sectionNum);
+
+        setTimeout(() => {
+          collapseSection(sectionNum);
+        }, 400);
+      }
+
+      return complete;
+    }
+
+    function markSectionComplete(sectionNum) {
+      const numberEl = document.getElementById(`section-number-${sectionNum}`);
+      const chevronEl = document.getElementById(`chevron-${sectionNum}`);
+      const headerEl = document.getElementById(`section-header-${sectionNum}`);
+
+      if (numberEl) {
+        numberEl.classList.add('complete');
+        numberEl.innerHTML = `<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>`;
+      }
+
+      if (chevronEl) {
+        chevronEl.classList.remove('hidden');
+        chevronEl.classList.add('rotated');
+      }
+
+      if (headerEl) {
+        headerEl.classList.add('clickable');
+      }
+    }
+
+    function collapseSection(sectionNum) {
+      const contentEl = document.getElementById(`section-content-${sectionNum}`);
+      const headerEl = document.getElementById(`section-header-${sectionNum}`);
+      const chevronEl = document.getElementById(`chevron-${sectionNum}`);
+
+      if (contentEl) {
+        contentEl.classList.add('collapsed');
+      }
+      if (headerEl) {
+        headerEl.classList.add('collapsed');
+      }
+      if (chevronEl) {
+        chevronEl.classList.remove('rotated');
+      }
+
+      sectionCollapsed[sectionNum] = true;
+    }
+
+    function toggleSection(sectionNum) {
+      if (!sectionComplete[sectionNum]) return;
+
+      const contentEl = document.getElementById(`section-content-${sectionNum}`);
+      const headerEl = document.getElementById(`section-header-${sectionNum}`);
+      const chevronEl = document.getElementById(`chevron-${sectionNum}`);
+
+      if (sectionCollapsed[sectionNum]) {
+        contentEl.classList.remove('collapsed');
+        headerEl.classList.remove('collapsed');
+        chevronEl.classList.add('rotated');
+        sectionCollapsed[sectionNum] = false;
+      } else {
+        contentEl.classList.add('collapsed');
+        headerEl.classList.add('collapsed');
+        chevronEl.classList.remove('rotated');
+        sectionCollapsed[sectionNum] = true;
+      }
+    }
+
+    function isFormComplete() {
+      return checkSectionComplete(1) && checkSectionComplete(2) && checkSectionComplete(3) && checkSectionComplete(4);
+    }
+
+    function updateSubmitButton() {
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = !isFormComplete();
+    }
+
+    function updateField(fieldName, value) {
+      formData[fieldName] = value;
+
+      switch(fieldName) {
+        case 'businessName':
+          if (value.length >= 2) {
+            showField('legalName', 100);
+          }
+          break;
+        case 'legalName':
+          if (value.length >= 2) {
+            showField('website', 100);
+            showField('businessType', 100);
+          }
+          break;
+        case 'businessType':
+          if (value) {
+            checkSectionComplete(1);
+            setTimeout(() => {
+              showSection(2, 200);
+              setTimeout(() => {
+                showField('taxId', 100);
+              }, 300);
+            }, 400);
+          }
+          break;
+        case 'taxId':
+          if (value.length >= 5) {
+            showField('taxCountry', 100);
+          }
+          break;
+        case 'taxCountry':
+          if (value) {
+            checkSectionComplete(2);
+            setTimeout(() => {
+              showSection(3, 200);
+              setTimeout(() => {
+                showField('streetAddress', 100);
+              }, 300);
+            }, 300);
+          }
+          break;
+        case 'streetAddress':
+          if (value.length >= 5) {
+            showField('city', 100);
+            showField('state', 100);
+            showField('zipCode', 100);
+          }
+          break;
+        case 'zipCode':
+          if (value.length >= 3) {
+            showField('country', 100);
+          }
+          break;
+        case 'country':
+          if (value) {
+            checkSectionComplete(3);
+            setTimeout(() => {
+              showSection(4, 200);
+              setTimeout(() => {
+                showField('supportEmail', 100);
+              }, 300);
+            }, 300);
+          }
+          break;
+        case 'supportEmail':
+          if (value.includes('@') && value.includes('.')) {
+            showField('supportPhone', 100);
+          }
+          break;
+        case 'supportPhone':
+          if (value.length >= 7) {
+            showField('contactFirstName', 100);
+            showField('contactLastName', 100);
+          }
+          break;
+      }
+
+      checkSectionComplete(1);
+      checkSectionComplete(2);
+      checkSectionComplete(3);
+      checkSectionComplete(4);
+      updateSubmitButton();
+    }
+
+    function handlePlaceSelected(components) {
+      const fields = ['streetAddress', 'city', 'state', 'zipCode', 'country'];
+
+      fields.forEach(field => {
+        formData[field] = components[field] || '';
+        const input = document.getElementById(field);
+        if (input) {
+          if (input.tagName === 'SELECT') {
+            input.value = components[field] || '';
+            if (input.value) {
+              input.classList.remove('placeholder');
+            }
+          } else {
+            input.value = components[field] || '';
+          }
+        }
+      });
+
+      showField('city', 100);
+      showField('state', 100);
+      showField('zipCode', 100);
+      showField('country', 100);
+
+      checkSectionComplete(3);
+      updateSubmitButton();
+
+      if (formData.country) {
+        setTimeout(() => {
+          showSection(4, 200);
+          setTimeout(() => {
+            showField('supportEmail', 100);
+          }, 300);
+        }, 300);
+      }
+    }
+
+    function initializeGooglePlaces() {
+      const streetAddressInput = document.getElementById('streetAddress');
+
+      if (window.google && window.google.maps && window.google.maps.places) {
+        const autocomplete = new google.maps.places.Autocomplete(streetAddressInput, {
+          types: ['address'],
+          fields: ['address_components', 'formatted_address']
+        });
+
+        autocomplete.addListener('place_changed', () => {
+          const place = autocomplete.getPlace();
+          if (!place.address_components) return;
+
+          const components = parseAddressComponents(place.address_components);
+          handlePlaceSelected(components);
+        });
+      }
+    }
+
+    function parseAddressComponents(components) {
+      const result = {
+        streetAddress: '',
+        city: '',
+        state: '',
+        zipCode: '',
+        country: ''
+      };
+
+      let streetNumber = '';
+      let route = '';
+
+      components.forEach(component => {
+        const types = component.types;
+
+        if (types.includes('street_number')) {
+          streetNumber = component.long_name;
+        }
+        if (types.includes('route')) {
+          route = component.long_name;
+        }
+        if (!result.city) {
+          if (types.includes('locality') || types.includes('sublocality') ||
+              types.includes('sublocality_level_1') || types.includes('postal_town') ||
+              types.includes('neighborhood')) {
+            result.city = component.long_name;
+          }
+        }
+        if (types.includes('administrative_area_level_1')) {
+          result.state = component.short_name;
+        }
+        if (!result.zipCode) {
+          if (types.includes('postal_code') || types.includes('postal_code_prefix')) {
+            result.zipCode = component.long_name;
+          }
+        }
+        if (types.includes('country')) {
+          result.country = component.short_name.toLowerCase();
+        }
+      });
+
+      if (!result.city) {
+        const cityComponent = components.find(c => c.types.includes('administrative_area_level_2'));
+        if (cityComponent) {
+          result.city = cityComponent.long_name;
+        }
+      }
+
+      result.streetAddress = `${streetNumber} ${route}`.trim();
+
+      return result;
+    }
+
+    function setupEventListeners() {
+      const inputFields = [
+        'businessName', 'legalName', 'website', 'taxId',
+        'streetAddress', 'city', 'state', 'zipCode',
+        'supportEmail', 'supportPhone', 'contactFirstName', 'contactLastName'
+      ];
+
+      inputFields.forEach(fieldName => {
+        const input = document.getElementById(fieldName);
+        if (input) {
+          input.addEventListener('input', (e) => {
+            updateField(fieldName, e.target.value);
+          });
+        }
+      });
+
+      const selectFields = ['businessType', 'taxCountry', 'country'];
+      selectFields.forEach(fieldName => {
+        const select = document.getElementById(fieldName);
+        if (select) {
+          select.addEventListener('change', (e) => {
+            if (e.target.value) {
+              e.target.classList.remove('placeholder');
+            }
+            updateField(fieldName, e.target.value);
+          });
+        }
+      });
+
+      for (let i = 1; i <= 4; i++) {
+        const header = document.getElementById(`section-header-${i}`);
+        if (header) {
+          header.addEventListener('click', () => toggleSection(i));
+        }
+      }
+
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (isFormComplete()) {
+          showSuccessScreen();
+        }
+      });
+
+      const restartBtn = document.getElementById('restart-btn');
+      restartBtn.addEventListener('click', () => {
+        resetForm();
+      });
+    }
+
+    function showSuccessScreen() {
+      document.getElementById('form-container').style.display = 'none';
+      const successContainer = document.getElementById('success-container');
+      successContainer.classList.add('visible');
+
+      document.getElementById('success-name').textContent = formData.contactFirstName;
+      document.getElementById('success-business').textContent = formData.businessName;
+    }
+
+    function resetForm() {
+      Object.keys(formData).forEach(key => {
+        formData[key] = '';
+      });
+
+      Object.keys(visibility).forEach(key => {
+        visibility[key] = key === 'businessName';
+      });
+
+      Object.keys(sectionCollapsed).forEach(key => {
+        sectionCollapsed[key] = false;
+      });
+
+      Object.keys(sectionComplete).forEach(key => {
+        sectionComplete[key] = false;
+      });
+
+      document.querySelectorAll('.field-input').forEach(input => {
+        input.value = '';
+      });
+
+      document.querySelectorAll('.field-select').forEach(select => {
+        select.selectedIndex = 0;
+        select.classList.add('placeholder');
+      });
+
+      document.querySelectorAll('.field').forEach(field => {
+        if (field.id !== 'field-businessName') {
+          field.classList.remove('visible');
+          field.classList.add('hidden');
+        }
+      });
+
+      for (let i = 2; i <= 4; i++) {
+        const section = document.getElementById(`section-${i}`);
+        section.classList.remove('visible');
+        section.classList.add('hidden');
+      }
+
+      for (let i = 1; i <= 4; i++) {
+        const numberEl = document.getElementById(`section-number-${i}`);
+        const chevronEl = document.getElementById(`chevron-${i}`);
+        const headerEl = document.getElementById(`section-header-${i}`);
+        const contentEl = document.getElementById(`section-content-${i}`);
+
+        numberEl.classList.remove('complete');
+        numberEl.innerHTML = i;
+
+        chevronEl.classList.add('hidden');
+        chevronEl.classList.remove('rotated');
+
+        headerEl.classList.remove('clickable');
+        headerEl.classList.remove('collapsed');
+
+        contentEl.classList.remove('collapsed');
+      }
+
+      document.getElementById('success-container').classList.remove('visible');
+      document.getElementById('form-container').style.display = 'block';
+
+      updateSubmitButton();
+
+      setTimeout(() => {
+        document.getElementById('businessName').focus();
+      }, 100);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setupEventListeners();
+
+      if (typeof google !== 'undefined' && google.maps && google.maps.places) {
+        initializeGooglePlaces();
+      }
+    });
+
+    window.initGooglePlaces = initializeGooglePlaces;
+  </script>
+
+  <!-- Optional: Add Google Maps API for address autocomplete -->
+  <!-- Replace YOUR_API_KEY with your actual Google Maps API key -->
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initGooglePlaces" async defer></script> -->
+</body>
+</html>
