@@ -57,6 +57,7 @@ interface FormInputProps {
   type?: string;
   readOnly?: boolean;
   autoFocus?: boolean;
+  helperText?: string;
 }
 
 export function FormInput({
@@ -67,6 +68,7 @@ export function FormInput({
   type = "text",
   readOnly = false,
   autoFocus = false,
+  helperText,
 }: FormInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -97,6 +99,9 @@ export function FormInput({
           readOnly && "bg-brand-gray-400/40 cursor-not-allowed text-brand-gray-100"
         )}
       />
+      {helperText && (
+        <p className="text-[10px] text-brand-gray-100/70">{helperText}</p>
+      )}
     </div>
   );
 }

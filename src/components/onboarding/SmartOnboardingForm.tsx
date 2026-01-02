@@ -114,6 +114,7 @@ export function SmartOnboardingForm({
                 value={formData.website}
                 onChange={(v) => updateField("website", v)}
                 placeholder="https://www.example.com"
+                helperText="Or we'll use your Airdope page"
               />
               <FormSelect
                 label="Business Type"
