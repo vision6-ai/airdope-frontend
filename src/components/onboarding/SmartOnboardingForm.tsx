@@ -90,10 +90,10 @@ export function SmartOnboardingForm({
         >
           <RevealingField isVisible={visibility.businessName}>
             <FormInput
-              label="Business Name"
+              label="Brand Name"
               value={formData.businessName}
               onChange={(v) => updateField("businessName", v)}
-              placeholder="Enter your business name"
+              placeholder="Enter your brand name"
               autoFocus
             />
           </RevealingField>
