@@ -116,7 +116,6 @@ export function SmartOnboardingForm({
               value={formData.legalName}
               onChange={(v) => updateField("legalName", v)}
               placeholder="Legal entity name"
-              autoFocus={visibility.legalName && !formData.legalName}
             />
           </RevealingField>
 
@@ -127,7 +126,6 @@ export function SmartOnboardingForm({
                 value={formData.website}
                 onChange={(v) => updateField("website", v)}
                 placeholder="https://www.example.com"
-                autoFocus={visibility.website && !formData.website}
               />
               <FormSelect
                 label="Business Type"
@@ -147,7 +145,6 @@ export function SmartOnboardingForm({
                 onChange={(v) => updateField("industryVertical", v)}
                 options={industryOptions}
                 placeholder="Select industry"
-                autoFocus={visibility.industryVertical && !formData.industryVertical}
               />
               <RevealingField isVisible={visibility.referenceId} delay={200}>
                 <FormInput
@@ -174,7 +171,6 @@ export function SmartOnboardingForm({
               value={formData.taxId}
               onChange={(v) => updateField("taxId", v)}
               placeholder="XX-XXXXXXX"
-              autoFocus={visibility.taxId && !formData.taxId}
             />
           </RevealingField>
 
@@ -185,7 +181,6 @@ export function SmartOnboardingForm({
               onChange={(v) => updateField("taxCountry", v)}
               options={countryOptions}
               placeholder="Select country"
-              autoFocus={visibility.taxCountry && !formData.taxCountry}
             />
           </RevealingField>
         </ProgressiveSection>
@@ -203,7 +198,6 @@ export function SmartOnboardingForm({
               value={formData.streetAddress}
               onChange={(v) => updateField("streetAddress", v)}
               placeholder="123 Main St"
-              autoFocus={visibility.streetAddress && !formData.streetAddress}
             />
           </RevealingField>
 
@@ -214,7 +208,6 @@ export function SmartOnboardingForm({
                 value={formData.city}
                 onChange={(v) => updateField("city", v)}
                 placeholder="New York"
-                autoFocus={visibility.city && !formData.city}
               />
               <FormInput
                 label="State"
@@ -238,7 +231,6 @@ export function SmartOnboardingForm({
               onChange={(v) => updateField("country", v)}
               options={countryOptions}
               placeholder="Select country"
-              autoFocus={visibility.country && !formData.country}
             />
           </RevealingField>
         </ProgressiveSection>
@@ -257,7 +249,6 @@ export function SmartOnboardingForm({
               onChange={(v) => updateField("supportEmail", v)}
               placeholder="support@example.com"
               type="email"
-              autoFocus={visibility.supportEmail && !formData.supportEmail}
             />
           </RevealingField>
 
@@ -268,7 +259,6 @@ export function SmartOnboardingForm({
               onChange={(v) => updateField("supportPhone", v)}
               placeholder="+1 (555) 000-0000"
               type="tel"
-              autoFocus={visibility.supportPhone && !formData.supportPhone}
             />
           </RevealingField>
 
@@ -279,7 +269,6 @@ export function SmartOnboardingForm({
                 value={formData.contactFirstName}
                 onChange={(v) => updateField("contactFirstName", v)}
                 placeholder="John"
-                autoFocus={visibility.contactFirstName && !formData.contactFirstName}
               />
               <FormInput
                 label="Contact Last Name"
