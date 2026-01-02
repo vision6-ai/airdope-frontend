@@ -17,9 +17,9 @@ A progressive business registration form that reveals fields dynamically as the 
 | Business Type | Select | Legal Name >= 2 characters | Required (triggers Section 2) |
 
 **Business Type Options:**
-- Standard
-- Enterprise
-- Startup
+- PRIVATE_COMPANY
+- PUBLIC_COMPANY
+- GOVERNMENT
 - Non-Profit
 
 ---
@@ -31,13 +31,8 @@ A progressive business registration form that reveals fields dynamically as the 
 | Tax ID Issuing Country | Select | Tax ID >= 5 characters | Required (triggers Section 3) |
 
 **Country Options:**
-- United States
-- Canada
-- United Kingdom
-- Germany
-- France
-- Australia
-- Other
+- United States (always pre selected as defult)
+- other contries list..
 
 ---
 
