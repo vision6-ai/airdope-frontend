@@ -1,7 +1,7 @@
 import React from "react";
 import { X, ArrowRight, Shield } from "lucide-react";
 import { useFormProgress } from "./useFormProgress";
-import { RevealingField, FormInput, FormSelect } from "./RevealingField";
+import { RevealingField, FormInput, FormSelect, FormInputAutocomplete } from "./RevealingField";
 import { ProgressiveSection } from "./ProgressiveSection";
 import { FormProgressBar, SectionIndicator } from "./FormProgressBar";
 
@@ -56,6 +56,20 @@ export function SmartOnboardingForm({
     if (isFormComplete()) {
       onSubmit?.(formData);
     }
+  };
+
+  const handlePlaceSelected = (components: {
+    streetAddress: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country: string;
+  }) => {
+    updateField("streetAddress", components.streetAddress);
+    updateField("city", components.city);
+    updateField("state", components.state);
+    updateField("zipCode", components.zipCode);
+    updateField("country", components.country);
   };
 
   const sections = [
@@ -193,11 +207,12 @@ export function SmartOnboardingForm({
           delay={200}
         >
           <RevealingField isVisible={visibility.streetAddress}>
-            <FormInput
+            <FormInputAutocomplete
               label="Street Address"
               value={formData.streetAddress}
               onChange={(v) => updateField("streetAddress", v)}
-              placeholder="123 Main St"
+              onPlaceSelected={handlePlaceSelected}
+              placeholder="Start typing your address..."
             />
           </RevealingField>
 

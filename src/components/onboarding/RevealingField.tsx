@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { cn } from "../../lib/utils";
+import { useGooglePlacesAutocomplete } from "../../lib/useGooglePlaces";
 
 interface RevealingFieldProps {
   isVisible: boolean;
@@ -158,6 +159,62 @@ export function FormSelect({
           </option>
         ))}
       </select>
+    </div>
+  );
+}
+
+interface FormInputAutocompleteProps {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  onPlaceSelected: (components: {
+    streetAddress: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country: string;
+  }) => void;
+  placeholder?: string;
+  autoFocus?: boolean;
+}
+
+export function FormInputAutocomplete({
+  label,
+  value,
+  onChange,
+  onPlaceSelected,
+  placeholder,
+  autoFocus = false,
+}: FormInputAutocompleteProps) {
+  const autocompleteRef = useGooglePlacesAutocomplete(onPlaceSelected);
+
+  useEffect(() => {
+    if (autoFocus && autocompleteRef.current) {
+      const timer = setTimeout(() => {
+        autocompleteRef.current?.focus();
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [autoFocus, autocompleteRef]);
+
+  return (
+    <div className="space-y-1">
+      <label className="text-[11px] text-brand-gray-100 font-medium uppercase tracking-wide">
+        {label}
+      </label>
+      <input
+        ref={autocompleteRef}
+        type="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        className={cn(
+          "w-full bg-brand-gray-400/60 border border-brand-gray-200/50 rounded-md px-3 py-2",
+          "text-white placeholder-brand-gray-100/60 text-sm",
+          "focus:outline-none focus:border-brand-gray-100/50 focus:ring-1 focus:ring-brand-gray-100/20",
+          "transition-all duration-200"
+        )}
+      />
     </div>
   );
 }
