@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Maps API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .status {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        #results {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Google Maps API Test</h1>
+    <div id="status" class="status info">Testing API key...</div>
+
+    <div>
+        <label><strong>Try the autocomplete:</strong></label>
+        <input id="autocomplete" type="text" placeholder="Start typing an address...">
+    </div>
+
+    <div id="results"></div>
+
+    <script>
+        const API_KEY = 'AIzaSyCM1FDPbbM1z8xAFxQ1OBhnW4S1QHYti2s';
+        const statusDiv = document.getElementById('status');
+        const resultsDiv = document.getElementById('results');
+
+        function updateStatus(message, type) {
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+        }
+
+        function loadGoogleMapsScript() {
+            return new Promise((resolve, reject) => {
+                if (window.google && window.google.maps) {
+                    resolve();
+                    return;
+                }
+
+                const script = document.createElement('script');
+                script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places`;
+                script.async = true;
+                script.defer = true;
+
+                script.onload = () => {
+                    updateStatus('✓ Google Maps API loaded successfully!', 'success');
+                    resolve();
+                };
+
+                script.onerror = () => {
+                    updateStatus('✗ Failed to load Google Maps API. Check your API key and network connection.', 'error');
+                    reject(new Error('Failed to load Google Maps'));
+                };
+
+                document.head.appendChild(script);
+            });
+        }
+
+        function initAutocomplete() {
+            const input = document.getElementById('autocomplete');
+            const autocomplete = new google.maps.places.Autocomplete(input, {
+                types: ['address'],
+                fields: ['address_components', 'formatted_address']
+            });
+
+            autocomplete.addListener('place_changed', () => {
+                const place = autocomplete.getPlace();
+
+                if (!place.address_components) {
+                    resultsDiv.innerHTML = '<p style="color: #856404;">No details available for this place.</p>';
+                    return;
+                }
+
+                let html = '<h3>Address Details:</h3>';
+                html += `<p><strong>Formatted Address:</strong> ${place.formatted_address || 'N/A'}</p>`;
+                html += '<p><strong>Components:</strong></p><ul>';
+
+                place.address_components.forEach(component => {
+                    html += `<li>${component.long_name} (${component.types.join(', ')})</li>`;
+                });
+
+                html += '</ul>';
+                resultsDiv.innerHTML = html;
+            });
+
+            updateStatus('✓ Autocomplete is ready! Try typing an address above.', 'success');
+        }
+
+        loadGoogleMapsScript()
+            .then(() => {
+                initAutocomplete();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                resultsDiv.innerHTML = `<p style="color: #721c24;">Error: ${error.message}</p>`;
+            });
+
+        window.gm_authFailure = function() {
+            updateStatus('✗ API Key Error: The API key is invalid or doesn\'t have the required permissions.', 'error');
+            resultsDiv.innerHTML = '<p><strong>Common issues:</strong></p><ul><li>API key is invalid</li><li>Places API is not enabled</li><li>API key restrictions are blocking the request</li><li>Billing is not set up</li></ul>';
+        };
+    </script>
+</body>
+</html>
