@@ -9,13 +9,13 @@ interface FormProgressBarProps {
 export function FormProgressBar({ percentage, className }: FormProgressBarProps) {
   return (
     <div className={cn("w-full", className)}>
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-xs text-brand-gray-100">Progress</span>
-        <span className="text-xs text-brand-gray-100 font-medium">
+      <div className="flex items-center justify-between mb-1">
+        <span className="text-[10px] text-brand-gray-100">Progress</span>
+        <span className="text-[10px] text-brand-gray-100 font-medium">
           {percentage}%
         </span>
       </div>
-      <div className="h-1 bg-brand-gray-300 rounded-full overflow-hidden">
+      <div className="h-0.5 bg-brand-gray-300 rounded-full overflow-hidden">
         <div
           className="h-full bg-gradient-to-r from-green-500 to-green-400 rounded-full transition-all duration-500 ease-out"
           style={{ width: `${percentage}%` }}
@@ -35,12 +35,12 @@ export function SectionIndicator({
   currentSection,
 }: SectionIndicatorProps) {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1.5">
       {sections.map((section, index) => (
         <React.Fragment key={section.number}>
           <div
             className={cn(
-              "w-2 h-2 rounded-full transition-all duration-300",
+              "w-1.5 h-1.5 rounded-full transition-all duration-300",
               section.isComplete
                 ? "bg-green-400"
                 : section.number === currentSection
@@ -51,7 +51,7 @@ export function SectionIndicator({
           {index < sections.length - 1 && (
             <div
               className={cn(
-                "w-8 h-0.5 transition-all duration-300",
+                "w-5 h-px transition-all duration-300",
                 section.isComplete ? "bg-green-400/50" : "bg-brand-gray-200"
               )}
             />

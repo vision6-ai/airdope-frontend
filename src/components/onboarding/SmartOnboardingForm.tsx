@@ -66,21 +66,21 @@ export function SmartOnboardingForm({
   ];
 
   return (
-    <div className="bg-brand-gray-500 border border-brand-gray-200/30 rounded-2xl w-full max-w-2xl mx-auto overflow-hidden">
-      <div className="px-8 pt-6 pb-4 border-b border-brand-gray-200/20">
-        <div className="flex items-start justify-between mb-4">
+    <div className="bg-brand-gray-500 border border-brand-gray-200/30 rounded-xl w-full max-w-xl mx-auto overflow-hidden">
+      <div className="px-5 pt-4 pb-3 border-b border-brand-gray-200/20">
+        <div className="flex items-start justify-between mb-3">
           <div>
-            <h1 className="text-2xl font-bold text-white">Business Registration</h1>
-            <p className="text-brand-gray-100 text-sm mt-1">
+            <h1 className="text-lg font-bold text-white">Business Registration</h1>
+            <p className="text-brand-gray-100 text-xs mt-0.5">
               Complete your business profile to activate your account
             </p>
           </div>
           {onClose && (
             <button
               onClick={onClose}
-              className="p-2 hover:bg-brand-gray-300 rounded-lg transition-colors"
+              className="p-1.5 hover:bg-brand-gray-300 rounded-md transition-colors -mr-1"
             >
-              <X className="w-5 h-5 text-brand-gray-100" />
+              <X className="w-4 h-4 text-brand-gray-100" />
             </button>
           )}
         </div>
@@ -88,12 +88,12 @@ export function SmartOnboardingForm({
           <SectionIndicator sections={sections} currentSection={currentSection} />
           <FormProgressBar
             percentage={getCompletionPercentage()}
-            className="w-32"
+            className="w-28"
           />
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="px-8 py-6 space-y-10">
+      <form onSubmit={handleSubmit} className="px-5 py-4 space-y-5">
         <ProgressiveSection
           number={1}
           title="Basic Information"
@@ -121,7 +121,7 @@ export function SmartOnboardingForm({
           </RevealingField>
 
           <RevealingField isVisible={visibility.website} delay={100}>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3">
               <FormInput
                 label="Website"
                 value={formData.website}
@@ -140,7 +140,7 @@ export function SmartOnboardingForm({
           </RevealingField>
 
           <RevealingField isVisible={visibility.industryVertical} delay={100}>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3">
               <FormSelect
                 label="Industry Vertical"
                 value={formData.industryVertical}
@@ -208,7 +208,7 @@ export function SmartOnboardingForm({
           </RevealingField>
 
           <RevealingField isVisible={visibility.city} delay={100}>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-3">
               <FormInput
                 label="City"
                 value={formData.city}
@@ -273,7 +273,7 @@ export function SmartOnboardingForm({
           </RevealingField>
 
           <RevealingField isVisible={visibility.contactFirstName} delay={100}>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3">
               <FormInput
                 label="Contact First Name"
                 value={formData.contactFirstName}
@@ -292,17 +292,17 @@ export function SmartOnboardingForm({
         </ProgressiveSection>
       </form>
 
-      <div className="px-8 py-4 border-t border-brand-gray-200/20 flex items-center justify-between">
-        <div className="flex items-center gap-2 text-brand-gray-100 text-sm">
-          <Shield className="w-4 h-4" />
-          <span>Your information is encrypted and secure</span>
+      <div className="px-5 py-3 border-t border-brand-gray-200/20 flex items-center justify-between">
+        <div className="flex items-center gap-1.5 text-brand-gray-100 text-xs">
+          <Shield className="w-3.5 h-3.5" />
+          <span>Encrypted and secure</span>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           {onClose && (
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2.5 text-sm font-medium text-white hover:bg-brand-gray-300 rounded-lg transition-colors"
+              className="px-4 py-2 text-sm font-medium text-white hover:bg-brand-gray-300 rounded-md transition-colors"
             >
               Cancel
             </button>
@@ -311,10 +311,10 @@ export function SmartOnboardingForm({
             type="submit"
             onClick={handleSubmit}
             disabled={!isFormComplete()}
-            className="px-5 py-2.5 text-sm font-semibold bg-white text-brand-dark rounded-lg hover:bg-gray-100 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
+            className="px-4 py-2 text-sm font-semibold bg-white text-brand-dark rounded-md hover:bg-gray-100 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1.5"
           >
-            Submit Registration
-            <ArrowRight className="w-4 h-4" />
+            Submit
+            <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>

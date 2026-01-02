@@ -79,8 +79,8 @@ export function FormInput({
   }, [autoFocus]);
 
   return (
-    <div className="space-y-1.5">
-      <label className="text-xs text-brand-gray-100 font-medium">{label}</label>
+    <div className="space-y-1">
+      <label className="text-[11px] text-brand-gray-100 font-medium uppercase tracking-wide">{label}</label>
       <input
         ref={inputRef}
         type={type}
@@ -89,7 +89,7 @@ export function FormInput({
         placeholder={placeholder}
         readOnly={readOnly}
         className={cn(
-          "w-full bg-brand-gray-400/60 border border-brand-gray-200/50 rounded-lg px-4 py-3",
+          "w-full bg-brand-gray-400/60 border border-brand-gray-200/50 rounded-md px-3 py-2",
           "text-white placeholder-brand-gray-100/60 text-sm",
           "focus:outline-none focus:border-brand-gray-100/50 focus:ring-1 focus:ring-brand-gray-100/20",
           "transition-all duration-200",
@@ -129,14 +129,14 @@ export function FormSelect({
   }, [autoFocus]);
 
   return (
-    <div className="space-y-1.5">
-      <label className="text-xs text-brand-gray-100 font-medium">{label}</label>
+    <div className="space-y-1">
+      <label className="text-[11px] text-brand-gray-100 font-medium uppercase tracking-wide">{label}</label>
       <select
         ref={selectRef}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={cn(
-          "w-full bg-brand-gray-400/60 border border-brand-gray-200/50 rounded-lg px-4 py-3",
+          "w-full bg-brand-gray-400/60 border border-brand-gray-200/50 rounded-md px-3 py-2",
           "text-white text-sm appearance-none cursor-pointer",
           "focus:outline-none focus:border-brand-gray-100/50 focus:ring-1 focus:ring-brand-gray-100/20",
           "transition-all duration-200",
@@ -145,8 +145,8 @@ export function FormSelect({
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%238A8A8E'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
           backgroundRepeat: "no-repeat",
-          backgroundPosition: "right 12px center",
-          backgroundSize: "20px",
+          backgroundPosition: "right 10px center",
+          backgroundSize: "16px",
         }}
       >
         <option value="" disabled>
